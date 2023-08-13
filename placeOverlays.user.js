@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         r/place overlays
 // @namespace    https://tampermonkey.net/
-// @version      0.0.8
+// @version      0.0.9
 // @description  Currently supported overlays: PlaceDE, Gronkh, Bonjwa, and Papaplatte
 // @author       MAZ / MAZ01001 <https://maz01001.github.io/>
 // @match        https://garlic-bread.reddit.com/embed*
@@ -18,6 +18,10 @@
 
 //@ts-check
 "use strict";
+
+//~ log time
+const timeScriptStart=performance.now();
+console.log("%c[rPlaceOverlays] script loading started at %f ms","background-color:#000;color:#F90;font-style:italic;font-size:larger",timeScriptStart.toFixed(3));
 
 /**@type {readonly[number,number]} current size of r/place canvas*/
 const CANVAS_SIZE=Object.freeze([3000,2000]);
@@ -254,9 +258,8 @@ const drawOverlays=()=>{
     }
 };
 /**## updates {@linkcode tempImage} position and size*/
-const DisplayTempImage=()=>{
+const displayTempImage=()=>{
     "use strict";
-    throw new class NotImplementedException extends Error{}("[rPlaceOverlays] drawTempOverlay");
     // TODO position/resize image via CSS relative to canvas position/origin
 };
 
@@ -575,7 +578,6 @@ const placeCanvasScreenshot=()=>{
  * @returns {Promise<readonly[string,string]|null>} `[unique name, image URL]` for new overlay or `null` if canceled by user
  */
 const promptNewOverlay=async()=>{
-    throw new class NotImplementedException extends Error{}("[rPlaceOverlays] promptNewOverlay");
     // TODO name & url input fields - check on input if already exists (notice that it can't be changed later) - OK and ABORT button (validate URL when OK button is pressed ! user feedback while waiting ?)
     //? check url → OVERLAYS.every(v=>v[1]!==url)
     //? check name → OVERLAYS.every(v=>v[0]!==name)
@@ -588,7 +590,6 @@ const promptNewOverlay=async()=>{
  * @returns {Promise<string|null>} the image URL for temp image or `null` if canceled by user
  */
 const promptSetTempImage=async()=>{
-    throw new class NotImplementedException extends Error{}("[rPlaceOverlays] promptSetTempImage");
     // TODO url input field - OK and ABORT button (validate URL when OK button is pressed ! user feedback while waiting ?)
     //? validate url (async) → await checkImageURL(url)
     return null;
@@ -599,6 +600,9 @@ const promptSetTempImage=async()=>{
 //~ start when HTML has finished loading
 window.addEventListener("load",async()=>{
     "use strict";
+    //~ log time
+    const timeLoadStart=performance.now();
+    console.log("%c[rPlaceOverlays] overlays started loading at %f ms (took %f ms since script loading ended)","background-color:#000;color:#F90;font-style:italic;font-size:larger",timeLoadStart.toFixed(3),(timeLoadStart-timeScriptEnd).toFixed(3));
     //~ find r/place canvas or stop script
     const placeLayout=document.querySelector("garlic-bread-embed")?.shadowRoot?.querySelector(".layout");
     if(placeLayout==null){
@@ -674,7 +678,7 @@ window.addEventListener("load",async()=>{
         "use strict";
         tempImagePosX.value=(tempImagePos[0]=Math.max(Math.min(Number(tempImagePosX.value)||0,Number.MAX_SAFE_INTEGER),Number.MIN_SAFE_INTEGER)).toString();
         saveStorage("tempImagePos",JSON.stringify(tempImagePos));
-        DisplayTempImage();
+        displayTempImage();
     },{passive:true});
     tempImagePosY.value=tempImagePos[1].toString();
     tempImagePosY.title="set Y position of temporary image";
@@ -682,7 +686,7 @@ window.addEventListener("load",async()=>{
         "use strict";
         tempImagePosY.value=(tempImagePos[1]=Math.max(Math.min(Number(tempImagePosY.value)||0,Number.MAX_SAFE_INTEGER),Number.MIN_SAFE_INTEGER)).toString();
         saveStorage("tempImagePos",JSON.stringify(tempImagePos));
-        DisplayTempImage();
+        displayTempImage();
     },{passive:true});
     tempImagePosArea.append(
         tempImagePosAreaTitle,
@@ -716,7 +720,7 @@ window.addEventListener("load",async()=>{
                 tempImageSizeWAuto.style.backgroundColor="#950";
                 saveStorage("tempImageSizeAuto","W");
             }
-            DisplayTempImage();
+            displayTempImage();
         }),
         tempImageSizeHAuto=createButton("Auto","Scale the height automatically to the width",()=>{
             "use strict";
@@ -737,7 +741,7 @@ window.addEventListener("load",async()=>{
                 tempImageSizeHAuto.style.backgroundColor="#950";
                 saveStorage("tempImageSizeAuto","H");
             }
-            DisplayTempImage();
+            displayTempImage();
         }),
         tempImageSizeReset=createButton("Reset","Reset image width / height to original values (and turns off auto scale)",()=>{
             "use strict";
@@ -767,7 +771,7 @@ window.addEventListener("load",async()=>{
         "use strict";
         tempImageSizeW.value=(tempImageSize[0]=Math.max(Math.min(Number(tempImageSizeW.value)||0,Number.MAX_SAFE_INTEGER),0)).toString();
         saveStorage("tempImageSize",JSON.stringify(tempImageSize));
-        DisplayTempImage();
+        displayTempImage();
     },{passive:true});
     tempImageSizeH.min="0";
     tempImageSizeH.value=tempImageSize[1].toString();
@@ -776,7 +780,7 @@ window.addEventListener("load",async()=>{
         "use strict";
         tempImageSizeH.value=(tempImageSize[1]=Math.max(Math.min(Number(tempImageSizeH.value)||0,Number.MAX_SAFE_INTEGER),0)).toString();
         saveStorage("tempImageSize",JSON.stringify(tempImageSize));
-        DisplayTempImage();
+        displayTempImage();
     },{passive:true});
     tempImageSizeArea.append(
         tempImageSizeAreaTitle,
@@ -819,7 +823,7 @@ window.addEventListener("load",async()=>{
             if(input==null)return;
             tempImage.src=input;
             // TODO save URL with compression
-            DisplayTempImage();
+            displayTempImage();
         }),
         tempImagePosArea,
         tempImageSizeArea,
@@ -840,5 +844,11 @@ window.addEventListener("load",async()=>{
     placeLayout.append(customMenu);
     placeContainer.append(overlayCanvas,tempImage);
     drawOverlays();
-    DisplayTempImage();
+    displayTempImage();
+    //~ log time
+    const timeLoadEnd=performance.now();
+    console.log("%c[rPlaceOverlays] overlays fished loading at %f ms (took %f ms)","background-color:#000;color:#F90;font-style:italic;font-size:larger",timeLoadEnd.toFixed(3),(timeLoadEnd-timeLoadStart).toFixed(3));
 },{passive:true,once:true});
+//~ log time
+const timeScriptEnd=performance.now();
+console.log("%c[rPlaceOverlays] script loading ended at %f ms (took %f ms)","background-color:#000;color:#F90;font-style:italic;font-size:larger",timeScriptEnd.toFixed(3),(timeScriptEnd-timeScriptStart).toFixed(3));
