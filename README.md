@@ -22,7 +22,7 @@ Users can also add a temporary image that will also be overlayed over the canvas
 
 The following overlays are there by default, but more can be added or removed by users choice.
 
-_When using this userscript for the first time these are invisible (use the eye toggle next to the name)._
+_When using this userscript for the first time these are invisible (use the eye toggle next to the name and then click on "update overlays")._
 
 <details open><summary>Click to toggle list</summary>
 
