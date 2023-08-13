@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>r/place overlay test</title>
+    <script src="./placeOverlays.user.js"></script>
+</head>
+<body>
+    <script>
+        //@ts-check
+        const s=Object.freeze([3000,2000]);
+
+        const gbe=document.createElement("garlic-bread-embed");
+        const gbesh=gbe.attachShadow({mode:"open"});
+        const cl=document.createElement("div");
+        cl.classList.add("layout");
+        const gbc=document.createElement("garlic-bread-canvas");
+        const gbcsh=gbc.attachShadow({mode:"open"});
+        const cc=document.createElement("div");
+        cc.classList.add("container");
+        cc.style.position="absolute";
+        cc.style.width=`${s[0]}px`;
+        cc.style.height=`${s[1]}px`;
+        const c=document.createElement("canvas");
+        c.width=s[0];
+        c.height=s[1];
+        const c2d=c.getContext("2d");
+        if(c2d==null)throw new ReferenceError("[rPlaceOverlays::test] could not get canvas 2d context");
+        c2d.fillStyle="transparent";
+        c2d.fillRect(0,0,s[0],s[1]);
+        cc.append(c);
+        gbcsh.append(cc);
+        cl.append(gbc);
+        gbesh.append(cl);
+        document.body.append(gbe);
+
+        /**
+         * ## A fast and simple 53-bit hash function inspired by MurmurHash2/3
+         * _modified to take two integers_ - original by [bryc](https://github.com/bryc "GitHub profile") (public domain 2018)
+         * @param {[number,number]} vec2ui - two unsigned integers
+         * @returns {number} 53-bit hash of {@linkcode vec2ui}
+         */
+        const cyrb53=vec2ui=>{
+            "use strict";
+            const h1=Math.imul((0xdeadbeef^vec2ui[0])^vec2ui[1],0x9E3779B1),
+                h2=Math.imul((0x41c6ce57^vec2ui[0])^vec2ui[1],0x5F356495);
+            return 0x100000000*(0x1FFFFF&(Math.imul(h2^(h2>>>16),0x85EBCA6B)^Math.imul(h1^(h1>>>13),0xC2B2AE35)))
+                +((Math.imul(h1^(h1>>>16),0x85EBCA6B)^Math.imul(h2^(h2>>>13),0xC2B2AE35))>>>0);
+        };
+        /**
+         * ## Calculates dot product of two vectors
+         * there is no limit on dimensions but vectors do need to have the same length
+         * @param {number[]} vecA - first vector
+         * @param {number[]} vecB - second vector
+         * @returns {number} the dot product of {@linkcode vecA} and {@linkcode vecB}
+         */
+        const dot=(vecA,vecB)=>{
+            "use strict";
+            let out=0;
+            for(let i=0;i<vecA.length;i++)out+=vecA[i]*vecB[i];
+            return out;
+        };
+        /**
+         * ## Linear interpolation between two numbers
+         * @param {number} a - start point
+         * @param {number} b - end point
+         * @param {number} t - percentage [0 to 1]
+         * @returns {number} number between {@linkcode a} and {@linkcode b}
+         */
+        const lerp=(a,b,t)=>{
+            "use strict";
+            return(b-a)*t+a;
+        }
+        /**
+         * ## Calculate value noise for pixel in image/canvas
+         * @param {number} px - X position (integer)
+         * @param {number} py - Y position (integer)
+         * @param {number} noiseResInv - noise resolution (inverse)
+         * @returns {number} the noise value for this pixel as 53-bit unsigned integer [0 to 0x1FFFFFFFFFFFFF]
+         */
+        const valueNoise=(px,py,noiseResInv)=>{
+            "use strict";
+            const[x,y]=[px*noiseResInv,py*noiseResInv],
+                [xi,yi]=[Math.trunc(x),Math.trunc(y)],
+                [xf,yf]=[x-xi,y-yi],
+                bl=cyrb53([xi,yi]),
+                br=cyrb53([xi+1,yi]),
+                tl=cyrb53([xi,yi+1]),
+                tr=cyrb53([xi+1,yi+1]);
+            return lerp(lerp(bl,br,xf),lerp(tl,tr,xf),yf);
+        };
+        const start=performance.now();
+        const imageData=new ImageData(s[0],s[1],{colorSpace:"srgb"}),
+            noiseResInv=0.8,
+            i53ToColor=0x202020202020+(0x1F/0xFF);
+        for(let px=0,py=0;py<s[1]&&px<s[0];++px===s[0]?(px=0,py++):0){
+            const pixel=Math.round(valueNoise(px,py,noiseResInv)/i53ToColor);
+            imageData.data.set([pixel,pixel,pixel,0xFF],(py*s[0]+px)*4);
+        }
+        c2d.putImageData(imageData,0,0);
+        console.log("noise generation took %f ms",performance.now()-start);
+    </script>
+</body>
+</html>
