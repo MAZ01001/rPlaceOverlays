@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         r/place overlays
 // @namespace    https://tampermonkey.net/
-// @version      0.0.7
+// @version      0.0.8
 // @description  Currently supported overlays: PlaceDE, Gronkh, Bonjwa, and Papaplatte
 // @author       MAZ / MAZ01001 <https://maz01001.github.io/>
 // @match        https://garlic-bread.reddit.com/embed*
@@ -830,7 +830,12 @@ window.addEventListener("load",async()=>{
     customMenu.append(
         createScreenshotButton(placeCanvasScreenshot),
         overlayArea,
-        tempImageArea
+        tempImageArea,
+        createButton("Clear stored settings","Removes all saved settings and reloads the page",()=>{
+            "use strict";
+            clearStorage();
+            window.location.reload();
+        })
     );
     placeLayout.append(customMenu);
     placeContainer.append(overlayCanvas,tempImage);
