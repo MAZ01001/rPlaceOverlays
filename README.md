@@ -39,7 +39,7 @@ Firstly install [Tampermonkey®](https://www.tampermonkey.net/ "Official Tamperm
 
 ## Other overlays
 
-This userscript is mainly inspired by these overlays, especialy PlaceDE since I was part of the PlaceDE nightwatch <img height="16" alt="🪑" title="Stuhl" src="https://cdn.7tv.app/emote/64bef8155212029786921edb/4x.webp"> in r/place 2023.
+This userscript is mainly inspired by these overlays, especialy PlaceDE since I was part of the PlaceDE nightwatch <img height="16" alt="🪑" title="Stuhl" src="https://cdn.7tv.app/emote/64bef8155212029786921edb/4x.avif"><img height="20" alt="o7" title="o7" src="https://cdn.7tv.app/emote/643f7ce3d9dd1d39100f31eb/4x.avif"> in r/place 2023.
 
 - [PlaceDE](https://github.com/PlaceDE-Official/place-overlay/ "Open repository of official PlaceDE overlay")
 - [Gronkh](https://github.com/FeLuckLP/rplace/ "Open repository of official Gronkh overlay")
