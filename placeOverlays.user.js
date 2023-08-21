@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         r/place overlays
 // @namespace    https://tampermonkey.net/
-// @version      0.0.9
+// @version      0.0.91
 // @description  Currently supported overlays: PlaceDE, Gronkh, Bonjwa, and Papaplatte
 // @author       MAZ / MAZ01001 <https://maz01001.github.io/>
 // @match        https://garlic-bread.reddit.com/embed*
@@ -315,13 +315,13 @@ customMenuStyle.textContent=`
     div#${customMenu.id}::-webkit-scrollbar-thumb:vertical,
     div#${customMenu.id} *::-webkit-scrollbar-thumb:vertical{
         background-color:#0000;
-        border-right:.2rem solid#000F;
+        border-right:.2rem solid #000F;
         border-radius:0;
     }
     div#${customMenu.id}:hover::-webkit-scrollbar-thumb:vertical,
     div#${customMenu.id} *:hover::-webkit-scrollbar-thumb:vertical{
         background-color:#000F;
-        box-shadow:inset 6px 0 6px 0 #0F0F;
+        box-shadow:inset .4rem 0 .4rem 0 #0A0F;
         border:none;
         border-top-left-radius:1rem;
         border-bottom-left-radius:1rem;
@@ -329,21 +329,25 @@ customMenuStyle.textContent=`
     div#${customMenu.id}::-webkit-scrollbar-thumb:horizontal,
     div#${customMenu.id} *::-webkit-scrollbar-thumb:horizontal{
         background-color:#0000;
-        border-bottom:.2rem solid#000F;
+        border-bottom:.2rem solid #000F;
         border-radius:0;
     }
     div#${customMenu.id}:hover::-webkit-scrollbar-thumb:horizontal,
     div#${customMenu.id} *:hover::-webkit-scrollbar-thumb:horizontal{
         background-color:#000F;
-        box-shadow:inset 6px 0 6px 0 #0F0F;
+        box-shadow:inset .4rem 0 .4rem 0 #0A0F;
         border:none;
         border-top-left-radius:1rem;
         border-top-right-radius:1rem;
     }
+    div#${customMenu.id}:hover::-webkit-scrollbar-thumb:hover:vertical,
+    div#${customMenu.id} *:hover::-webkit-scrollbar-thumb:hover:vertical,
+    div#${customMenu.id}:hover::-webkit-scrollbar-thumb:hover:horizontal,
+    div#${customMenu.id} *:hover::-webkit-scrollbar-thumb:hover:horizontal{box-shadow:inset .4rem 0 .4rem 0 #0F0F;}
     div#${customMenu.id}::-webkit-scrollbar-track,
-    div#${customMenu.id} *::-webkit-scrollbar-track{display:none;background-color:#0000;}
+    div#${customMenu.id} *::-webkit-scrollbar-track,
     div#${customMenu.id}::-webkit-scrollbar-track-piece,
-    div#${customMenu.id} *::-webkit-scrollbar-track-piece{display:none;background-color:#0000;}
+    div#${customMenu.id} *::-webkit-scrollbar-track-piece,
     div#${customMenu.id}::-webkit-scrollbar-corner,
     div#${customMenu.id} *::-webkit-scrollbar-corner{display:none;background-color:#0000;}
 `;
