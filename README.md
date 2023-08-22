@@ -44,4 +44,4 @@ This userscript is mainly inspired by these overlays, especialy PlaceDE since I 
 
 ## Preview
 
-See a [live interactive preview](https://maz01001.github.io/rPlaceOverlays/preview.html "Open live preview through github pages") in your current browser.
+See a [live interactive preview](https://maz01001.github.io/rPlaceOverlays/preview "Open live preview through github pages") in your current browser.
