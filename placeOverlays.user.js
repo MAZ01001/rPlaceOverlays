@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         r/place overlays
 // @namespace    https://tampermonkey.net/
-// @version      0.0.92
+// @version      0.0.93
 // @description  Currently supported overlays: PlaceDE, Gronkh, Bonjwa, and Papaplatte
 // @author       MAZ / MAZ01001 <https://maz01001.github.io/>
 // @match        https://garlic-bread.reddit.com/embed*
@@ -96,6 +96,11 @@ const clearStorage=()=>{
  */
 const checkImageURL=async url=>{
     "use strict";
+    if(url.startsWith("javascript:"))return false;
+    if(url.startsWith("data:")){
+        if(url.startsWith("data:image/"))return true;
+        return false;
+    }
     const res=await fetch(url,{method:"HEAD"}).catch(()=>null);
     const buff=await res?.blob();
     return buff?.type?.startsWith("image/")??false;
