@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         r/place overlays
 // @namespace    https://tampermonkey.net/
-// @version      0.0.91
+// @version      0.0.92
 // @description  Currently supported overlays: PlaceDE, Gronkh, Bonjwa, and Papaplatte
 // @author       MAZ / MAZ01001 <https://maz01001.github.io/>
 // @match        https://garlic-bread.reddit.com/embed*
@@ -85,9 +85,8 @@ const removeStorage=name=>{
  */
 const clearStorage=()=>{
     "use strict";
-    for(const key in localStorage){
+    for(const key in localStorage)
         if(key.startsWith("rPlaceOverlays_"))localStorage.removeItem(key);
-    }
 }
 /**
  * ## checks if given {@linkcode url} leads to an image
@@ -99,7 +98,7 @@ const checkImageURL=async url=>{
     "use strict";
     const res=await fetch(url,{method:"HEAD"}).catch(()=>null);
     const buff=await res?.blob();
-    return buff?.type?.startsWith('image/')??false;
+    return buff?.type?.startsWith("image/")??false;
 };
 
 /**@type {number} number of default overlays in {@linkcode OVERLAYS} (after that are the custom overlays)*/
@@ -119,11 +118,14 @@ const OVERLAYS=(customOverlays=>{
         Object.freeze(["Papaplatte (full)","https://place.kayo.zip/outputs/default_target.png"]),
     ];
     if(!Array.isArray(customOverlays))return overlays;
-    for(const overlay of customOverlays){
-        if(!Array.isArray(overlay)||overlay.length!==2||overlay.some(v=>typeof v!=="string"))continue;
-        //@ts-ignore above line checks for [string,string]
-        overlays.push(Object.freeze(overlay));
-    }
+    for(const overlay of customOverlays)
+        if(
+            Array.isArray(overlay)
+            &&overlay.length===2
+            &&typeof overlay[0]==="string"
+            &&typeof overlay[1]==="string"
+         //@ts-ignore above lines check for [string,string]
+        )overlays.push(Object.freeze(overlay));
     return overlays;
 })(JSON.parse(readStorage("customOverlays")??"[]"));
 saveStorage("customOverlays",JSON.stringify(OVERLAYS.slice(DEFAULT_OVERLAYS)));
@@ -497,11 +499,18 @@ const tempImagePos=(storedValue=>{
     "use strict";
     if(storedValue==null)return Object.seal([0,0]);
     const parsed=JSON.parse(storedValue);
-    if(!Array.isArray(parsed)||parsed.length!==2||parsed.some(v=>typeof v!=="number"))return Object.seal([0,0]);
-    /**@type {[number,number]}*/
-    //@ts-ignore above condition checks for [number,number]
-    const checked=Object.seal(parsed);
-    return checked;
+    if(
+        Array.isArray(parsed)
+        &&parsed.length!==2
+        &&typeof parsed[0]==="number"
+        &&typeof parsed[1]==="number"
+    ){
+        /**@type {[number,number]}*/
+        //@ts-ignore above condition checks for [number,number]
+        const checked=Object.seal(parsed);
+        return checked;
+    }
+    return Object.seal([0,0]);
 })(readStorage("tempImagePos"));
 saveStorage("tempImagePos",JSON.stringify(tempImagePos));
 /**@type {[number,number]} size of {@linkcode tempImage} `[width, height]` (this array is sealed)*/
@@ -509,11 +518,18 @@ const tempImageSize=(storedValue=>{
     "use strict";
     if(storedValue==null)return Object.seal([0,0]);
     const parsed=JSON.parse(storedValue);
-    if(!Array.isArray(parsed)||parsed.length!==2||parsed.some(v=>typeof v!=="number"))return Object.seal([0,0]);
-    /**@type {[number,number]}*/
-    //@ts-ignore above condition checks for [number,number]
-    const checked=Object.seal(parsed);
-    return checked;
+    if(
+        Array.isArray(parsed)
+        &&parsed.length!==2
+        &&typeof parsed[0]==="number"
+        &&typeof parsed[1]==="number"
+    ){
+        /**@type {[number,number]}*/
+        //@ts-ignore above condition checks for [number,number]
+        const checked=Object.seal(parsed);
+        return checked;
+    }
+    return Object.seal([0,0]);
 })(readStorage("tempImageSize"));
 saveStorage("tempImageSize",JSON.stringify(tempImageSize));
 
