@@ -342,15 +342,15 @@ customMenuStyle.textContent=`
     div#${customMenu.id}:hover::-webkit-scrollbar-thumb:horizontal,
     div#${customMenu.id} *:hover::-webkit-scrollbar-thumb:horizontal{
         background-color:#000F;
-        box-shadow:inset .4rem 0 .4rem 0 #0A0F;
+        box-shadow:inset 0 .4rem .4rem 0 #0A0F;
         border:none;
         border-top-left-radius:1rem;
         border-top-right-radius:1rem;
     }
     div#${customMenu.id}:hover::-webkit-scrollbar-thumb:hover:vertical,
-    div#${customMenu.id} *:hover::-webkit-scrollbar-thumb:hover:vertical,
+    div#${customMenu.id} *:hover::-webkit-scrollbar-thumb:hover:vertical{box-shadow:inset .4rem 0 .4rem 0 #0F0F;}
     div#${customMenu.id}:hover::-webkit-scrollbar-thumb:hover:horizontal,
-    div#${customMenu.id} *:hover::-webkit-scrollbar-thumb:hover:horizontal{box-shadow:inset .4rem 0 .4rem 0 #0F0F;}
+    div#${customMenu.id} *:hover::-webkit-scrollbar-thumb:hover:horizontal{box-shadow:inset 0 .4rem .4rem 0 #0F0F;}
     div#${customMenu.id}::-webkit-scrollbar-track,
     div#${customMenu.id} *::-webkit-scrollbar-track,
     div#${customMenu.id}::-webkit-scrollbar-track-piece,
