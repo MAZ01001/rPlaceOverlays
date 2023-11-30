@@ -623,7 +623,7 @@ const promptSetTempImage=async()=>{
 };
 
 //~ start when HTML has finished loading
-window.addEventListener("load",async()=>{
+window.addEventListener("DOMContentLoaded",async()=>{
     "use strict";
     //~ log time
     const timeLoadStart=performance.now();
