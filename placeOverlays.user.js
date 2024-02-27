@@ -313,50 +313,67 @@ customMenuStyle.textContent=`
         border-radius:1rem;
         cursor:grab;
     }
+    @supports not selector(::-webkit-scrollbar){
+        div#${customMenu.id},
+        div#${customMenu.id} *{
+            scrollbar-width: thin;
+            scrollbar-color: #0A07 transparent;
+        }
+        div#${customMenu.id}:hover,
+        div#${customMenu.id} *:hover{scrollbar-color: #0A0 transparent;}
+    }
     div#${customMenu.id}::-webkit-scrollbar,
-    div#${customMenu.id} *::-webkit-scrollbar{width:.8rem;height:.8rem;}
+    div#${customMenu.id} *::-webkit-scrollbar{
+        width:.8rem;
+        height:.8rem;
+    }
     div#${customMenu.id}::-webkit-scrollbar-thumb:vertical:window-inactive,
     div#${customMenu.id} *::-webkit-scrollbar-thumb:vertical:window-inactive{border-right-style:dashed;}
     div#${customMenu.id}::-webkit-scrollbar-thumb:horizontal:window-inactive,
     div#${customMenu.id} *::-webkit-scrollbar-thumb:horizontal:window-inactive{border-bottom-style:dashed;}
     div#${customMenu.id}::-webkit-scrollbar-thumb:vertical,
     div#${customMenu.id} *::-webkit-scrollbar-thumb:vertical{
-        background-color:#0000;
-        border-right:.2rem solid #000F;
+        background-color:transparent;
+        border-right:.3rem solid #0A0;
         border-radius:0;
     }
     div#${customMenu.id}:hover::-webkit-scrollbar-thumb:vertical,
     div#${customMenu.id} *:hover::-webkit-scrollbar-thumb:vertical{
-        background-color:#000F;
-        box-shadow:inset .4rem 0 .4rem 0 #0A0F;
+        background-color:#000;
+        box-shadow:inset .4rem 0 .4rem 0 #0A0;
         border:none;
         border-top-left-radius:1rem;
         border-bottom-left-radius:1rem;
     }
     div#${customMenu.id}::-webkit-scrollbar-thumb:horizontal,
     div#${customMenu.id} *::-webkit-scrollbar-thumb:horizontal{
-        background-color:#0000;
-        border-bottom:.2rem solid #000F;
+        background-color:transparent;
+        border-bottom:.3rem solid #0A0;
         border-radius:0;
     }
     div#${customMenu.id}:hover::-webkit-scrollbar-thumb:horizontal,
     div#${customMenu.id} *:hover::-webkit-scrollbar-thumb:horizontal{
-        background-color:#000F;
-        box-shadow:inset 0 .4rem .4rem 0 #0A0F;
+        background-color:#000;
+        box-shadow:inset 0 .4rem .4rem 0 #0A0;
         border:none;
         border-top-left-radius:1rem;
         border-top-right-radius:1rem;
     }
-    div#${customMenu.id}:hover::-webkit-scrollbar-thumb:hover:vertical,
-    div#${customMenu.id} *:hover::-webkit-scrollbar-thumb:hover:vertical{box-shadow:inset .4rem 0 .4rem 0 #0F0F;}
-    div#${customMenu.id}:hover::-webkit-scrollbar-thumb:hover:horizontal,
-    div#${customMenu.id} *:hover::-webkit-scrollbar-thumb:hover:horizontal{box-shadow:inset 0 .4rem .4rem 0 #0F0F;}
+    div#${customMenu.id}::-webkit-scrollbar-thumb:hover:vertical,
+    div#${customMenu.id} *::-webkit-scrollbar-thumb:hover:vertical{box-shadow:inset .4rem 0 .4rem 0 #0F0;}
+    div#${customMenu.id}::-webkit-scrollbar-thumb:hover:horizontal,
+    div#${customMenu.id} *::-webkit-scrollbar-thumb:hover:horizontal{box-shadow:inset 0 .4rem .4rem 0 #0F0;}
     div#${customMenu.id}::-webkit-scrollbar-track,
     div#${customMenu.id} *::-webkit-scrollbar-track,
     div#${customMenu.id}::-webkit-scrollbar-track-piece,
     div#${customMenu.id} *::-webkit-scrollbar-track-piece,
+    div#${customMenu.id}::-webkit-scrollbar-button,
+    div#${customMenu.id} *::-webkit-scrollbar-button,
     div#${customMenu.id}::-webkit-scrollbar-corner,
-    div#${customMenu.id} *::-webkit-scrollbar-corner{display:none;background-color:#0000;}
+    div#${customMenu.id} *::-webkit-scrollbar-corner{
+        display:none;
+        background-color:transparent;
+    }
 `;
 customMenu.append(customMenuStyle);
 /**@type {HTMLDivElement} container (list) for the {@linkcode OVERLAYS} with visibility toggle and delete button */
